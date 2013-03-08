@@ -184,12 +184,18 @@ class Zendesk(object):
             elif "Authorization" in self.headers:
                 del(self.headers["Authorization"])
 
+            # Exceptions for default content-type
+            content_type = api_map.get('content', 'application/json')
+            if content_type is 'application/json':
+                body = json.dumps(body)
+            self.headers['Content-Type'] = content_type
+
             # Make an http request (data replacements are finalized)
             response, content = \
                     self.client.request(
                         url,
                         method,
-                        body=json.dumps(body),
+                        body=body,
                         headers=self.headers
                     )
             # Use a response handler to determine success/fail
