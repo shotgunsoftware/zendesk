@@ -21,7 +21,7 @@
 """
 
 __author__ = "Max Gutman <max@eventbrite.com>"
-__version__ = "1.1.0"
+__version__ = "1.1.1"
 
 import re
 import httplib2
@@ -66,6 +66,14 @@ def get_id_from_url(url):
     match = re_identifier.match(url)
     if match and match.group('identifier'):
         return match.group('identifier')
+
+
+def clean_kwargs(kwargs):
+    """Format the kwargs to conform to API"""
+
+    for key, value in kwargs.iteritems():
+        if hasattr(value, '__iter__'):
+            kwargs[key] = ','.join(map(str, value))
 
 
 class Zendesk(object):
@@ -172,6 +180,7 @@ class Zendesk(object):
                     raise TypeError("%s() got an unexpected keyword argument "
                                     "'%s'" % (api_call, kw))
             else:
+                clean_kwargs(kwargs)
                 url += '?' + urllib.urlencode(kwargs)
 
             # the 'search' endpoint in an open Zendesk site doesn't return a 401
@@ -210,7 +219,7 @@ class Zendesk(object):
 
     @staticmethod
     def _response_handler(response, content, status):
-        """ 
+        """
         Handle response as callback
 
         If the response status is different from status defined in the

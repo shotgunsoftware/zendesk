@@ -13,6 +13,11 @@ mapping_table = {
         'path': '/tickets/{{ticket_id}}.json',
         'method': 'GET',
     },
+    'show_many_tickets': {
+        'path': '/tickets/show_many.json',
+        'valid_params': ['ids'],
+        'method': 'POST'
+    },
     'create_ticket': {
         'path': '/tickets.json',
         'method': 'POST',
@@ -117,14 +122,17 @@ mapping_table = {
     # Users
     'list_users': {
         'path': '/users.json',
+        'valid_params': ('role','page'),
         'method': 'GET',
     },
     'list_users_in_group': {
         'path': '/groups/{{group_id}}/users.json',
+        'valid_params': ('role','page'),
         'method': 'GET',
     },
     'list_users_in_organization': {
         'path': '/organization/{{organization_id}}/users.json',
+        'valid_params': ('role','page'),
         'method': 'GET',
     },
     'show_user': {
@@ -317,29 +325,29 @@ mapping_table = {
     },
 
     # Organizations
-    'list_organzations': {
+    'list_organizations': {
         'path': '/organizations.json',
         'method': 'GET',
     },
-    'autocomplete_organzations': {
+    'autocomplete_organizations': {
         'path': '/organizations/autocomplete.json',
         'valid_params': ['name'],
         'method': 'GET',
     },
-    'show_organzation': {
+    'show_organization': {
         'path': '/organizations/{{organization_id}}.json',
         'method': 'GET',
     },
-    'create_organzation': {
+    'create_organization': {
         'path': '/organizations.json',
         'method': 'POST',
     },
-    'update_organzation': {
-        'path': '/organizations.json',
+    'update_organization': {
+        'path': '/organizations/{{organization_id}}.json',
         'method': 'PUT',
     },
-    'delete_organzation': {
-        'path': '/organizations.json',
+    'delete_organization': {
+        'path': '/organizations/{{organization_id}}.json',
         'method': 'DELETE',
     },
 
