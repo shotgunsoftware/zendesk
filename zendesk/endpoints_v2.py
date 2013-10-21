@@ -40,12 +40,23 @@ mapping_table = {
         'valid_params': ['ids'],
         'method': 'DELETE',
     },
+    'search_ticket': {
+        'path': '/tickets.json',
+        'valid_params': ['external_id'],
+        'method': 'GET',
+    },
     'list_ticket_collaborators': {
         'path': '/tickets/{{ticket_id}}/collaborators.json',
         'method': 'GET',
     },
     'list_ticket_incidents': {
         'path': '/tickets/{{ticket_id}}/incidents.json',
+        'method': 'GET',
+    },
+
+    # Ticket Comments
+    'list_ticket_comments': {
+        'path': '/tickets/{{ticket_id}}/comments.json',
         'method': 'GET',
     },
 
@@ -350,7 +361,12 @@ mapping_table = {
         'path': '/organizations/{{organization_id}}.json',
         'method': 'DELETE',
     },
-
+    'search_organization': {
+        'path': '/organizations/search.json',
+        'valid_params': ['query', 'external_id'],
+        'method': 'GET',
+    },
+    
     # Search
     'search': {
         'path': '/search.json',
@@ -567,7 +583,9 @@ mapping_table = {
     # Attachments
     'upload_attachment': {
         'path': '/uploads.json',
+        'valid_params': ('filename', 'token'),
         'method': 'POST',
+        'content': 'application/binary',
     },
 
     # Job Statuses
@@ -662,6 +680,6 @@ mapping_table = {
 # Patch mapping table with correct HTTP Status expected
 for method, api_map in mapping_table.iteritems():
     status = 200
-    if method.startswith('create_'):
+    if method.startswith('create_') or method.startswith('upload_'):
         status = 201
     api_map['status'] = status
