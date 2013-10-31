@@ -39,6 +39,7 @@ V2_COLLECTION_PARAMS = [
         'page',
         'per_page',
         'sort_order',
+        'sort_by'
     ]
 
 class ZendeskError(Exception):
@@ -199,16 +200,34 @@ class Zendesk(object):
                 body = json.dumps(body)
             self.headers['Content-Type'] = content_type
 
-            # Make an http request (data replacements are finalized)
-            response, content = \
-                    self.client.request(
-                        url,
-                        method,
-                        body=body,
-                        headers=self.headers
-                    )
-            # Use a response handler to determine success/fail
-            return self._response_handler(response, content, status)
+
+            # 502 errors are killing us. They are "investigating" but
+            # until then, cycle requests that return 502 errors 3 times before 
+            # bailing
+            count = 1
+            while count:
+                try:
+                    # Make an http request (data replacements are finalized)
+                    response, content = \
+                            self.client.request(
+                                url,
+                                method,
+                                body=body,
+                                headers=self.headers
+                            )
+                    # Use a response handler to determine success/fail
+                    return self._response_handler(response, content, status)
+                except ZendeskError, e:
+                    if hasattr(e, 'error_code') and e.error_code == 502:
+                        if count == 5:
+                            raise
+                        # immediate repeated calls still fail, try delaying
+                        import time
+                        time.sleep(count)
+                        count += 1
+                    else:
+                        raise
+
 
         # Missing method is also not defined in our mapping table
         if api_call not in self.mapping_table:

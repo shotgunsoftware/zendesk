@@ -42,7 +42,7 @@ mapping_table = {
     },
     'search_ticket': {
         'path': '/tickets.json',
-        'valid_params': ['external_id'],
+        'valid_params': ['external_id', 'sort_by', 'sort_order'],
         'method': 'GET',
     },
     'list_ticket_collaborators': {
