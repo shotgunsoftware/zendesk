@@ -93,7 +93,8 @@ mapping_table = {
         'path': '/uploads.json',
         'valid_params': ('filename', 'token'),
         'method': 'POST',
-        'status': 201,
+        'status': 200,
+        'content': 'application/binary',
     },
     # Rest API: Users
     'list_users': {

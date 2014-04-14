@@ -79,7 +79,7 @@ def clean_kwargs(kwargs):
 class Zendesk(object):
     """ Python API Wrapper for Zendesk"""
 
-    def __init__(self, zendesk_url, zendesk_username=None,
+    def __init__(self, zendesk_url, zendesk_username,
                  zendesk_password=None, use_api_token=False, headers=None,
                  client_args={}, api_version=1):
         """
