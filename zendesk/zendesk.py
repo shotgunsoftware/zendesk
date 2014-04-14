@@ -124,7 +124,9 @@ class Zendesk(object):
                 self.zendesk_username,
                 self.zendesk_password
             )
-
+            self.headers["Authorization"] = "Basic %s" % (
+                 base64.b64encode(self.zendesk_username + ':' +
+                                  self.zendesk_password))
         self.api_version = api_version
         if self.api_version == 1:
             self.mapping_table = mapping_table_v1
@@ -186,16 +188,6 @@ class Zendesk(object):
             else:
                 clean_kwargs(kwargs)
                 url += '?' + urllib.urlencode(kwargs)
-
-            # the 'search' endpoint in an open Zendesk site doesn't return a
-            # 401 to force authentication. Inject the credentials in the
-            # headers to ensure we get the results we're looking for
-            if re.match("^/search\..*", path):
-                self.headers["Authorization"] = "Basic %s" % (
-                    base64.b64encode(self.zendesk_username + ':' +
-                                     self.zendesk_password))
-            elif "Authorization" in self.headers:
-                del(self.headers["Authorization"])
 
             if mime_type == "application/json":
                 body = json.dumps(body)
