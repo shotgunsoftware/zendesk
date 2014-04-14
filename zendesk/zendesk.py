@@ -36,11 +36,11 @@ from endpoints import mapping_table as mapping_table_v1
 from endpoints_v2 import mapping_table as mapping_table_v2
 
 V2_COLLECTION_PARAMS = [
-    'page',
-    'per_page',
-    'sort_order',
-]
-
+        'page',
+        'per_page',
+        'sort_order',
+        'sort_by'
+    ]
 
 class ZendeskError(Exception):
     def __init__(self, msg, code, response):
