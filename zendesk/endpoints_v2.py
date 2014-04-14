@@ -44,12 +44,23 @@ mapping_table = {
         'valid_params': ['ids'],
         'method': 'DELETE',
     },
+    'search_ticket': {
+        'path': '/tickets.json',
+        'valid_params': ['external_id', 'sort_by', 'sort_order'],
+        'method': 'GET',
+    },
     'list_ticket_collaborators': {
         'path': '/tickets/{{ticket_id}}/collaborators.json',
         'method': 'GET',
     },
     'list_ticket_incidents': {
         'path': '/tickets/{{ticket_id}}/incidents.json',
+        'method': 'GET',
+    },
+
+    # Ticket Comments
+    'list_ticket_comments': {
+        'path': '/tickets/{{ticket_id}}/comments.json',
         'method': 'GET',
     },
 
@@ -391,7 +402,12 @@ mapping_table = {
         'path': '/organizations/{{organization_id}}.json',
         'method': 'DELETE',
     },
-
+    'search_organization': {
+        'path': '/organizations/search.json',
+        'valid_params': ['query', 'external_id'],
+        'method': 'GET',
+    },
+    
     # Organization Fields
     'list_organization_fields': {
         'path': '/organization_fields.json',
@@ -631,6 +647,7 @@ mapping_table = {
     'upload_attachment': {
         'path': '/uploads.json',
         'method': 'POST',
+        'content': 'application/binary',
         'valid_params': ['filename', 'token'],
     },
 
