@@ -256,9 +256,19 @@ class Zendesk(object):
 
         # Deserialize json content if content exist. In some cases Zendesk
         # returns ' ' strings. Also return false non strings (0, [], (), {})
-        if response.get('location'):
-            return response.get('location')
-        elif content.strip():
+        # if response.get('location'):
+        #     return response.get('location')
+        # elif content.strip():
+        #     return json.loads(content)
+        # else:
+        #     return responses[response_status]
+
+        # re-order logic. creating an attachment returns location and json
+        # but in the old logic was only returning the url this way. We 
+        # want the json!
+        if content.strip():
             return json.loads(content)
+        elif response.get('location'):
+            return response.get('location')
         else:
             return responses[response_status]
